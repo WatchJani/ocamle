@@ -1,0 +1,543 @@
+4+9;;
+print_string "Pozdravljen svet!\n";;
+false;;
+true;;
+
+4;;
+4.5;;
+
+"NIZ";;
+
+
+(+) 3 4;;
+( +. ) 4. 5.;;
+
+( * );;
+
+( *. ) 4.5 84.;;
+int_of_char 'b';;
+
+int_of_float ( -3.  );;
+
+string_of_int (4);;
+
+(* string_of_char;; ne obstaja*)
+Char.escaped ('a');;
+
+"Fra".[0] 
+  
+  String.length "niz";;
+
+(fun x-> x+1) 2;; 
+2 |> (fun x-> x+1);;
+
+'a' |> int_of_char;;
+'a' |> int_of_char |> (fun x-> x + 1) |> char_of_int;;
+'a' |> int_of_char |> (+)1 |> char_of_int;;
+
+(-) 1 97
+  "more " ^ "vala"
+
+  ( ** );;
+( ** ) 5. 8. ;;
+
+( <= ) 4 5;;
+
+( <> )  4 5;;
+
+true && false;;
+
+if true then "foo" else 4;; (** ne radi **) 
+if true then "true" else "false";;
+
+(1, 2, "FOO");;
+
+snd;;
+fst(3, 456);;
+
+(** seznam **)
+[];;
+[1;2;3];;
+
+[1,"string"; 3,"strimng"];;
+(2, [1;2])
+
+  ["a"; "b"; "c"; "d"];;
+"a"::("b"::("c"::("d"::[])));;
+List.hd ["a"; "b"; "c"; "d"];;
+List.tl ["a"; "b"; "c"; "d"];;
+
+List.tl ["a"; "b"; "c"; "d"] |> List.tl |> List.hd;;
+0::[1;2;3];;
+
+[1;2;3;4]@[5];;
+
+(** :: dodaje element na pocetak liste **)
+
+let a =10;;
+let f =(fun x -> x+1);;
+f a;;
+  
+
+let a=3 and b=4;;
+
+let a =0 in a+1;;
+
+let a;;
+
+
+
+let f function x->x+1 if f 2;; (*lokalna jer koristi in*) 
+if true then 1 else 0;;
+
+
+let rec vsota_do_n n=if n <= 1 then 1 else n+(vsota_do_n (n-1));;
+vsota_do_n 7;
+
+bsoza_do_n 3;;
+3+(vsota_do_n 2);;
+3+(2+(vsota_do_n 1));;
+
+let rec gcd a b=if b=0 then a else gcd b(a mod b);;
+gcd 4 6;;
+
+gcd 6 (4 mod 6);;
+gcd 6 (4);;
+gcd 4 (6 mod 4);;
+gcd 4 2;;
+gcd 2 (4 mod 2);;
+gcd 2 0;;
+2;;
+
+
+[1;2;3] 
+  List.hd [1;2;3];; 
+
+let rec zdruzi_seznama s1 s2=if s1=[] then s2 else (List.hd s1)::(zdruzi_seznama (List.tl s1) s2);;
+zdruzi_seznama [1;2;3] [4;5];;
+
+zdruzi_seznama [1;2;3] [4;5];;
+1::(zdruzi_seznama [2;3] [4;5]);;
+1::(2::(zdruzi_seznama[3][4;5]));;
+1::(2::(3::(zdruzi_seznama [4;5])));
+1::(2::(3::([4;5]))));
+
+
+let rec zdruzi_seznama_obratno s1 s2=
+  if s1=[] then s2 
+  else (zdruzi_seznama_obratno (List.tl s1) ((List.hd s1)::s2));;
+
+zdruzi_seznama_obratno [1;2;3] [4;5];;
+zdruzi_seznama_obratno [2;3] (1::[4;5]);;
+zdruzi_seznama_obratno [3] (2::(1::[4;5]));;
+zdruzi_seznama_obratno [] (3::(2::(1::[4;5])));;
+(3::(2::(1::[4;5])));;
+
+let obrni_seznam se=zdruzi_seznama_obratno sez [];;
+obrni_seznam ['a'; 'b'; 'c'];;
+
+let obrni_seznam2 sez=
+  let rec zdruzi_seznama_obratno s1 s2=
+    if s1=[] then s2 else (zdruzi_seznama_obratno (List.tl s1) ((List.hd s1)::s2)) in 
+  zdruzi_seznama_obratno sez [];;
+
+let rec zdruzi_seznama s1 s2=if s1=[] then s2 else (List.hd s1)::(zdruzi_seznama (List.tl s1) s2);;
+let dodaj_na_konec elm sez=zdruzi_seznama sez [elm];;
+dodaj_na_konec 2 [3;4;5];;
+
+
+fst (1, "2");;
+match (1, "2", 'a') with (x,y,z)->x;;
+
+
+let prvi_od_treh tris=match (1, "2", 'a') with (x,y,z)->x;;
+prvi_od_treh (2., 1, false);;
+
+let prvi_od_treh = function(x,y,z)->x;;
+let prvi_od_treh (x,y,z)=x;;
+let f=function x->x+1;;
+let f x=x+1;;
+
+let implikacija a b=match (a, b)with 
+  | (false, false)->true 
+  | (false, true)->true
+  | (true, false)-> false
+  | (true, true)-> true;;
+implikacija false true;; 
+
+
+let implikacija a b=match (a, b)with 
+  | (false, false)->true 
+  | (false, true)->true
+  | (true, false)-> false
+  | (true, true)-> true;;
+implikacija false true;;
+
+let implikacija a b=match a, b with
+    true, false -> false
+  | _->true;;
+      
+      
+let (=>)=implikacija;;
+(=>) true true;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+match 'h' with 'a'..'e'->true | _->false;;
+
+let swap_upper_lower znak=match znak with
+  | 'a'..'z'->char_of_int ((int_of_char znak)-32)
+  | 'A'..'Z'->char_of_int((int_of_char znak)+32)
+  | _->znak;;
+
+swap_upper_lower 'g';;
+
+
+let rec iterate f x =function
+  | n when n<=0 -> x
+  | n ->iterate f (f x) (n-1);;
+
+iterate (fun y->1::y) [] 5;;
+
+let potenca osnova exponent=iterate (fun y-> y * osnova) 1 exponent;;
+potenca 2 10;;
+
+List.length [1;234;34;234;5];;
+let rec enako_dolga_seznama s1 s2= match (s1, s2)with
+  | (h1 :: t1, h2::t2) -> enako_dolga_seznama t1 t2
+  | ([],[]) -> true
+  | _-> false;;
+
+enako_dolga_seznama [1;2] ['a'; 'f']
+
+
+let rec vstavi_v_seznam_parov (k, v)= function 
+  | (k2, v2)::t when k=k2 -> (k2, v +v2)::t
+  | (k2, v2)::t when k<k2->(k, v)::(k2, v2)::t
+  | (k2, v2)::t -> (k2, v2):: (vstavi_v_seznam_parov (k,v) t)
+  | []-> (k, v) :: [];; (*[(k, v)]*) 
+
+vstavi_v_seznam_parov ('b', 3) ['a', 1; 'c', 4; 'd', 2; 'f', 4] 
+  
+  
+
+let explode niz=
+  let rec fake_for_zanka seznam= function
+    | -1 -> seznam
+    | index-> fake_for_zanka (niz.[index]::seznam) (index -1) 
+  in fake_for_zanka [] ((String.length niz)-1);;
+
+explode "asdas d";;
+  
+List.map;;
+
+List.map float_of_int [1;2;3];;
+List.map (function x -> x +1) [1;2;3];;
+
+List.filter (function x-> (String.length x) > 3) ["foo"; "bannana"; "pepsi"];;
+List.filter (function x-> x > 0) [0; -4; 15; -5];;
+
+List.filter (function  'A'..'Z'-> true | _->false) ['a';'G'];;
+
+
+let je_geslo niz= List.for_all (function  'A'..'Z'-> true | 'a'..'z' | '0'..'9' | '#' | _->false) (explode niz);; 
+
+List.fold_left;;
+
+List.fold_left (fun x y -> x+y) 0 [1;2;3;4;5;6];;
+List.fold_left (fun x y -> x+y) 1 [2;3;4;5;6];;
+List.fold_left (fun x y -> x+y) 3 [3;4;5;6];;
+List.fold_left (fun x y -> x+y) 6 [4;5;6];;
+
+List.fold_left (fun x y ->x+1) 0 [1;45;45;1;0];;
+
+List.fold_right;;
+List.fold_right (fun y x -> x+1) [1;2;3;4;5;6] 0;;
+List.fold_right (fun y x -> x+1) [1;2;3;4;5] 1;;
+List.fold_right (fun y x -> x+1) [1;2;3;4] 2;;
+List.fold_right (fun y x -> x+1) [1;2;3] 3;;
+
+List.fold_right (fun x y-> x::y) [1;2;3;4;5;6] [];;
+List.fold_right (fun x y-> x::y) [1;2;3;4;5;6] [8;9];;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    (1,3.14, "Foo");; 
+type seba={ime:string; mutable starost:int};;
+{ime="Janez Novak"; starost = 20};;
+
+let o1 ={ime="Janez Novak"; starost=20};;
+o1.starost;;
+
+match o1 with {ime=x; starost=y}->y;;
+o1.starost<-21;;
+
+match o1 with {ime=x:starost=y}->{ime:"Janez Kovac"; starost=y};;
+
+
+type ulomek={st:int;im:int};;
+{st = 12; im = 30};;
+
+let rec gcd a b = if b = 0 then a else gcd b (a mod b);;
+let okrajsaj=function {st=x; im =y }-> 
+  let g= gcd x y in {st=x/g; im=y/g};;
+
+okrajsaj {st=12; im=30};;
+
+
+let vsota_ulomkov u1 u2 = okrajsaj {st=u1.st*u2.im+u1.im*u2.st;im*u2.st;im=u1.im*u2.im}
+    vsota_ulomkov {st=1; im=3}{st=1; im=6};;
+
+type spol=Moski | Zenski;;
+Moski;;
+
+let bool_of_spol = function 
+  | Moski -> true
+  | Zenski -> false;;
+
+bool_of_spol Zenski;;
+
+type stevilo=Neskoncno | Celo of int | Decimalno of float | Racionalno of ulomek | Komplexno of float * float;;
+
+[Neskoncno;Celo 1; Decimalno 1.41; Racionalno {st = 12; im = 30}; Komplexno (2., 3.14)]
+let int_of_stevilo=function 
+  | Neskoncno -> 0
+  | Celo x -> x
+  | Decimalno x-> int_of_float x 
+  | Racionalno {st: x; im=y} -> x + y
+  | Komplexno (x,y)-> int_of_float (x +.y);;
+
+List.map int_of_stevilo
+  [Neskoncno;Celo 1; Decimalno 1.41; Racionalno {st = 12; im = 30}; Komplexno (2., 3.14)];;
+
+
+type placilo=Gotovina of float | Kartica of string*float;;
+let zgodovina=[Gotovina 2.72; Kartica ("Visa", 21.); Gotovina 6.28; Kartica ("MC", 10.)];;
+
+
+let vsota_placil seznam = 
+  let rec pomozna (x1, x2) seznam = function
+    | (Gotovina x)::t -> pomozna (x1 +.x,x2) t
+    | (Kartica (_,x))::t-> (x1, x2+.x) t
+    | []-> (x1, x2)
+  in pomozna (0.,0.) seznam;;
+vsota_placil zgodovina;;
+
+
+
+
+type polozaj=Kralj | Papez of string*int | Vitez of string | Kmet of string;; 
+let moc_polozaja =function 
+  | Kralj-> 10
+  | Papez _-> 7
+  | Vitez _-> 3
+  | Kmet _-> 1;;
+let vecji_polozaj p1 p2 = (moc_polozaja p1) > (moc_polozaja p2);;
+vecji_polozaj (Papez ("Janez Pavel", 2)) (Vitez "DonKihot");;
+
+
+
+(Kralj:polozaj);;
+([Kralj; Kmet "Janez"; Kralj]:polozaj list);;
+
+type figura=Kralj | Kraljica | Top | Skakac | Tekac | Kmet;;
+Kralj;; 
+
+type sah=Bel of figura | Crn of figura;;
+[Bel Skakac; Crn Kralj; Crn Top; Bel Kralj; Bel Kmet];;
+
+let moc_figure= function 
+  | Kralj -> 100 
+  | Kraljica -> 9
+  | Top -> 5
+  | Skakac | Tekac -> 3
+  | Kmet -> 1;;
+
+let oceni_sah seznam = List.fold_left (fun (x1, x2) y -> match y with 
+    | Bel x -> (x1 + (moc_figure x) , x2)
+    | Crn x -> (x1, x2 + (moc_figure x))
+  ) (0, 0) seznam;; 
+
+oceni_sah [Bel Skakac; Crn Kralj; Crn Top; Bel Kralj; Bel Kmet];;
+
+
+type 'a opcija=Nic | Nekaj of 'a;;
+
+type ('a, 'b) par={kljuc: 'a; vrijednost: 'b};; 
+{kljuc="foo"; vrijednost=4};;
+
+
+type 'a seznam=Prazan | Neprazan of 'a* 'a seznam;;
+Prazan;; 
+Neprazan (1,Neprazan (10, Neprazan (1, Prazan)));;
+
+let rec dolzina_seznama=function
+  | Neprazan -> (h, t)-> 1 +(dolzina_seznama t)
+  | Prazen -> 0;;
+
+
+Neprazan (1,Neprazan (10, Neprazan (1, Prazan))) |> dolzina_seznama;;
+
+let je_enako: int -> int -> bool = fun a b -> a = b;;
+
+(*new*)
+let f a b c =(a>b) || c;;
+
+
+let f : float -> float -> bool -> bool =fun a b c->(a>b) || c;;
+
+f 2. 3. false;;
+
+type 'a seznam = Prazen2 | Neprazen2 of 'a zapis and 'a zapis={head:'a; tail:'a seznam} 
+  
+(*bitno*)
+let s2 = Neprazen2 {head=1; tail=Neprazen2 {head=10; tail=Neprazen2 {head=100; tail=Prazen2}}};;
+
+let obrni_seznam2 seznam=
+  let rec pomozna levi desni=match desni with 
+    | Neprazen2 {head=h; tail=t}-> pomozna (Neprazen2 {head=h; tail=levi}) t
+    | Prazen2 -> levi
+  in pomozna Prazen2 seznam;;
+
+obrni_seznam2 s2;;
+(*bitno*)
+
+type 'a bindrevo=Prazen3 | Neprazen3 of 'a * 'a bindrevo*'a bindrevo;;
+let d1= Neprazen3 ('a',
+                   Neprazen3 ('a',
+                              Prazen3,
+                              Prazen3),
+                   Neprazen3 ('a',
+                              Prazen3,
+                              Prazen3))
+
+let bd1=Neprazen3 (7,
+                   Neprazen3 (1,
+                              Neprazen3,(-5,Prazen3,Prazen3),
+                              Neprazen3 (4,Neprazen3,Neprazen3 (5,Prazen3,Prazen3))),
+                   Neprazen3(20,
+                             Neprazen3 (10, Prazen3, Prazen3),
+                             Neprazen3 (21, Prazen3, Prazen3 (30, Prazen3, Prazen3))));;
+
+let rec minimum=function
+  | Neprazen3 (h, Prazen3, _) -> h
+  | Neprazen3 (_, manjse, _) -> minimum manjse
+  | Prazen3 -> failwith "prazno drevo";;
+minimum bd1;;
+
+let rec je_elemet elm=function
+  | Neprazen3 (h, manjse, vecje) when elm>h->
+  | Neprazen3 (h, manjse, vecje) when elm< h ->
+  | Neprazen3 (h, manjse, vecje) -> true
+  | Prazen3 -> false;;
+
+je_elemet 5 bd1;;
+je_elemet 9 bd1;;
+
+let rec vstavi elm=function
+  | Neprazen3 (h, manjse, vecje) when elm>h->
+  | Neprazen3 (h, manjse, vecje) when elm< h ->
+  | Neprazen3 (h, manjse, vecje) -> true
+  | Prazen3 -> false;; 
+
+
+
+let a = ref 0;; 
+
+
+let s= ref [1;2] in s:=0 ::(!s);!s;;
+
+let b = ref "foo" in let c = b in c := (!c) ^"bar"; !b;;
+
+
+
+let s = ref ['a'; 'b'; 'c'] in
+let dolzina = ref 0 in
+while (!s)<>[] do
+  incr dolzina; s:=List.tl (!s);  
+done; !dolzina;;
+
+let delitelji n=
+  let seznam= ref [] in
+  let d=ref n in
+  while (!d) > 0 do
+    if (n mod (!d)=0) then seznam:=(!d)::(!seznam); decr d;
+  done; !seznam;;
+delitelji 30;;
+
+for i=1 to 5 do 
+  print_int i; print_string ";"
+done; print_string "\n";;
+
+
+for i=1 downto 5 do 
+  print_int i; print_string ";"
+done; print_string "\n";;
+
+let pescena_ura n = 
+  for i=1 to n do
+    for j = 1 to n do
+      if ( i = 1 || i=n || j>=i || j+i<=n+1 ) then print_string "*" else print_string " "; 
+    done; print_string "\n";
+  done;;
+
+pescena_ura 30;;
+
+let polje1=[|2;23;34;45|];;
+
+polje1.(0);;
+
+Array.length polje1;;
+polje1.(0)<-20
+  
+let temp=ref polje1.(0) in polje1.(0)<-polje1.(1);polje1.(1)<-(!temp);polje1;;
+
+Array.make 6 "";;
+let od_n_do_m n m=
+  let polje=Array.make (abs(m-n)+1) n in
+  if n <=m then
+    (for i = n+1 to m do
+       polje.(i-n)<-i
+     done)
+  else
+    (for i = n -1 downto m do
+       polje.(n-1)<-i
+     done)
+      polje;;
+od_n_do_m 4 7;;
