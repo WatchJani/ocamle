@@ -541,3 +541,70 @@ let od_n_do_m n m=
      done)
       polje;;
 od_n_do_m 4 7;;
+
+
+
+let py = [|1;4;5|];;
+py.(2);;
+
+p1.(0)<-5;;
+
+Array.length p1;;
+Array.make 3 4;;
+
+let zdruzi_polji p1 p2=
+  let l1=Array.length p1 in
+  let l2= Array.length p2 in
+  let p3 = if l1 +l2 = 0 then p1 else
+      (Array.make (l1 + l2) (if l1 > 0 then p1.(0) else p2.(0))) in
+  for i=0 to l1 - 1 do 
+    p3.(i)<-p1.(i)
+  done;
+  for i=0 to l2-1 do
+    p3.(i+l1)<-p2.(i) 
+  done; p3;;
+
+
+
+let rezine p1 p2=
+  let l2=Array.length p2 in
+  let p3=Array.make l2 (p1.(0)) in
+  for i = 0 to l2-1 do
+    p3.(i)<-p1.(p2.(i))
+  done; p3;;
+
+
+
+let polje_fold_left f vred polje=
+  let temp= ref vred in
+  for i = 0 to (Array.length polje - 1) do 
+    temp := f (!temp) polje.(i)
+  done; !temp;;
+
+let polje_filter f polje=
+  let l1 = Array.length polje in
+  let temp = ref 0 in
+  for i = 0 to l1 -1 do
+    if f polje.(i) then incr temp
+  done; 
+  let podpolje = if (!temp) = 0 then [||] else (Array.make (!temp) (p1.(0))) in
+  temp:=0;
+  for i = 0 to l1 -1 do
+    if f polje.(i) then (podpolje.(!temp)<-polje.(i); incr temp)
+  done; podpolje;;
+
+let m1=Array.make_matrix 3 4 5;;
+
+Array.length m1;;
+Array.length.m1.(0);;
+
+m1.(0).(0)<-1;;
+m1;;
+
+let print_matrix print_fun matrix = 
+  for i =0 to (Array.length matrix) - 1 do 
+    for j = 0 to (Array.length matrix.(i))-1 do
+      print_fun matrix.(i).(j); print_string " "
+    done; print_string "\n";
+  done;;
+  
