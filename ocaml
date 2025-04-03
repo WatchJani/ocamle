@@ -608,3 +608,46 @@ let print_matrix print_fun matrix =
     done; print_string "\n";
   done;;
   
+  
+  
+  type 'a pixel = {mutable r: 'a; mutable z: 'a; mutable m: 'a};;
+
+type 'a matrix = 'a pixel array array;;
+
+let submat_map: 'a matrix -> (int*int)*(int*int) -> ('a pixel -> 'a pixel) -> 'a matrix =
+  fun m ((a, b),(c, d)) f ->
+    for i = a to c do
+      for j = b to d do
+        m.(i).(j)<-f m.(i).(j)
+      done;
+    done; m;; 
+
+
+let a = ref 0 in let b = a in incr b;!a;;  
+let a = ref 0 in let b = ref (!a) in incr b; !a;;
+let p1 = [|0|] in let p2 = p1 in p2.(0)<-1;p1;;
+let p1 = [|0|] in let p2 = Array.copy p1 in p2.(0)<-1;p1;;
+
+let m1 = [|[|0|]|] in let m2 = Array.copy m1 in m2.(0).(0)<-1;m1;;
+let m1 = [|[|0|]|] in let m2 = Array.map Array.copy m1 in m2.(0).(0)<-1;m1;;
+
+let vsota_matrik m1 m2 = 
+  let m3 = Array.map Array.copy m1 in 
+  for i = 0 to (Array.length m3)-1 do
+    for j = 0 to (Array.length m3.(i))-1 do
+      m3.(i).(j)<-m2.(i).(j)+m3.(i).(j) 
+    done;
+  done; m3;;
+
+
+let bubble_sort polje = 
+  let temp=ref polje.(0) in
+  for i = (Array.length polje) -2 downto 0 do
+    for j = 0 to i do
+      if (polje.(j)>polje.(j +1)) then 
+        (temp:=polje.(j); polje.(j)<-polje.(j+1); polje.(j+1)<-(!temp))
+    done;
+  done; polje;;
+
+
+bubble_sort [|4;5;7;12;1;2|]
