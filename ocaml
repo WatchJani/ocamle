@@ -651,3 +651,81 @@ let bubble_sort polje =
 
 
 bubble_sort [|4;5;7;12;1;2|]
+
+
+
+
+(*new new new new new new*)
+
+  
+  Array.iter (fun x-> print_int x; print_string " ") [|3;4;5|];;
+let s = ref [] in Array.iter (fun x -> := x:: (!s)) [|3;4;5|];!s;;
+Array.iter (fun x ->Array.iter (fun x-> print_int x; print_string " "); print_string "\n") [|[|1;2|]; [|3;4|]; [|5;6|]|];;
+
+Array.mapi;;
+let vsota_polj p1 p2 = Array.mapi (fun i x->x + p1.(i)) p2;;
+vsota_polj [|3;4;5|][|30;40;50|];;
+
+Array.make 20 0 |> Array.mapi (fun i x-> i);;
+
+
+let vsota_matrik m1 m2 = Array.mapi (fun i x->Array.mapi (fun j y -> y +m1.(i).(j))x) m2;;
+vsota_matrik [|[|1;2|]; [|3;4|]; [|5;6|]|] [|[|10;20|]; [|30;04|]; [|50;60|]|];;
+
+let selection_sort polje =
+  let index_min = ref 0 in
+  let temp = ref polje.(0) in
+  for i = 0 to (Array.length polje) - 1 do
+    for j = i+1 to (Array.length polje) - 1 do 
+      if (polje.(j) < polje.(!index_min)) then index_min := j
+    done;
+    temp:= polje.(i); polje.(i)<-polje.(!index_min); polje.(!index_min)<-(!temp);
+    index_min:= i+1;
+  done;polje;;
+  
+
+selection_sort [|6;5;4;3;2;1|];;
+  
+selection_sort [|6;15;40;3;12|];;
+
+let rec quick_sort = function 
+  | h::t -> (quick_sort (List.filter (fun x->x<=h) t))@(h::(quick_sort (List.filter (fun x -> x>h)t)))
+  | _->[] 
+       
+  
+let insertion_sort polje=
+  let elm = ref polje.(0) in 
+  let temp = ref polje.(0) in
+  for i = 0 to (Array.length polje)-2 do
+    elm:=polje.(i+1);
+    for j = 0 to i do 
+      if (!elm)<polje.(j) then 
+        (temp:=polje.(j);polje.(j)<-(!elm); elm:=(!temp))
+    done; polje;
+    polje.(i+1)<-(!elm);
+  done; polje;;
+
+
+insertion_sort [|6;5;4;3;2;1|];;
+
+
+
+let rec merge s1 s2 = match s1, s2 with 
+  | h1:: t1, h2 :: t2 when h1 <= h2 -> h1 ::(merge t1 s2)
+  | h1::t1, h2::t2-> h2 :: (merge s1 t2)
+  | [], x | x, [] -> x
+
+
+let rec split s1 s2 logical = function 
+  | h::t when logical -> split (h::s1) s2 (not logical) t 
+  | h :: t -> split s1 (h::s2) (not logical) t
+  | _-> (s1, s2);; 
+
+let rec merge_sort = function
+  | h :: [] -> h :: []
+  | h1::h2::t -> (match split [h1] [h2] true t with s1, s2-> merge (merge_sort s1) (merge_sort s2))
+  | _-> [] ;;
+
+merge_sort [6;5;4;3;2;1]
+  
+        
