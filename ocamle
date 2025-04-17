@@ -1,0 +1,130 @@
+(* This is an OCaml editor.
+   Enter your program here and send it to the toplevel using the "Eval code"
+   button or [Ctrl-e]. *)
+
+class preprost = object end;;
+
+new preprost;;
+
+class neprazen = object
+  val a = 0
+  method get_a = a 
+end;;
+
+let n1 = new neprazen;; n1#get_a;; n1#a;;
+
+print_endline "foo";print_endline "foo";print_endline "foo";;
+Printf.printf "foo"; 
+
+Printf.printf "foo %i %s" 0 ".";; 
+
+class primer_to_string = object 
+  val data = (1, 3.14, "foo", true, 'c', [|5;6;7|])
+  method to_string = match data with (a, b, c, d, e, f)->
+    Printf.sprintf "V objektu so %i, %f,%s,%b,%c in polje z vrednosti: %s"
+      a b c d e (Array.fold_left (fun x y->x^";"^(string_of_int y)) "" f) (**concatinate*)
+end;;
+
+(new primer_to_string)#to_string;;
+
+
+(*self je po zelji bolje ne komplikovati sebi zivot*)
+class primer_s_parametri x1 x2 x3= object (self)
+  val mutable a = (x1:int)
+  val mutable b : string* float= (x2, x3)
+  method get_a = a 
+  method get_b = b
+  method set_a elm = a<-elm
+  method set_b elm = b<- elm; self
+end;;
+
+let psp = new primer_s_parametri 0 "foo" 3.14;;
+psp#get_b;;
+psp#set_a 10; psp#get_a;;
+(psp#set_b ("a", 0.))#get_b;;
+
+
+
+
+class ['a, 'b] primer_polimorfizma x1= object 
+  val a: 'a = x1
+  val b: 'b list =[]
+  method get_a = a
+end;;
+
+new primer_polimorfizma 1;;
+new primer_polimorfizma 1.;;
+
+((new primer_polimorfizma 1.): (float, string) primer_polimorfizma
+);;
+
+
+(*private ako imam ne mogu pozvati metodu van objekta*)
+class primer_privat = object (self)
+  val mutable data: int list = []
+  method dodaj elm = data <- elm :: data
+  method private vsota = List.fold_left (+) 0 data
+  method to_string = Printf.sprintf "Na seznamu so %s in vsota vseh vrednosti je %i."
+      (List.fold_left(fun x y -> x ^";"^ (string_of_int y)) "" data) self#vsota
+end;;
+
+let pp = new primer_privat;;
+pp#dodaj 1;;
+pp#dodaj 2;;
+pp#dodaj 3;;
+pp#to_string;;
+
+class primer_init =
+  let b = 10 in
+  object (self)
+    val mutable a = b
+    method incr_a = a <- a + 1
+    initializer self#incr_a; Printf.printf "Ustvarje je new object z a=%i" a 
+  end;;
+
+new primer_init;;
+
+
+
+class ['a] sklad = object 
+  val mutable data : 'a list= []
+  method push elm = data <- elm :: data 
+  method pop=match data with 
+    | h::t -> data <- t; h
+    | [] -> failwith "prazan sklad"
+  method is_empty = data = []
+  method reverse = data <-List.rev data 
+end;;
+
+((new sklad): float sklad);;
+let s= new sklad;; s#push 3; s#push 4; s#pop;; s#push 5;;
+
+class ['a] vrsta = object 
+  val mutable s1: 'a sklad = new sklad (*vztavljamo iz tega*)
+  val mutable s2: 'a sklad = new sklad (*vracamo iz tega*)
+  method vstavi elm = s1#push elm 
+  method vrni = if (s2#is_empty) then (if s1#is_empty then failwith "prazna vrsta" else (s2<-s1;s2#reverse; s1 <- new sklad));
+    s2#pop 
+end;;
+
+class ['a] simple x1 = object
+  val mutable a: 'a=x1
+  method get_a = a
+  method set_a elm = a<-elm
+end;;
+
+Random.int 3;; 
+Array.make 20 0 |> Array.fold_left (fun x y->(new simple (Random.int 10)::x)) [];; 
+
+let si = Array.make 20 0 |> Array.fold_left (fun x y->(new simple (Random.int 10))::x) [];; 
+let sc = Array.make 20 0 |> Array.fold_left (fun x y->(new simple (char_of_int (Random.int 10)))::x) [];; 
+
+class ['a] seznam_simple x1 = object 
+  val seznam: 'a simple list = x1
+  method get_vals= List.map (fun x->x#get_a)seznam 
+  method map f = List.iter (fun x->x set_a(f x#get_a)) seznam 
+end;;
+
+let ss = new seznam_simple si;; ss#get_vals;; ss#map ((+) 1); ss#get_vals;;
+let ss2 = new seznam_simple sc;; ss2#get_vals;;
+
